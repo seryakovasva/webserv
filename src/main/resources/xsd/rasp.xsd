@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="schedule" type="Schedule"/>
+
+	<xs:complexType name="Schedule">
+		<xs:sequence>
+			<xs:element name="pair" maxOccurs="unbounded" minOccurs="0" type="Pair"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Pair" type="Pair"/>
+	
+	 <xs:complexType name="Pair">
+            <xs:sequence>
+                <xs:element name="week" type="xs:string"/>
+		<xs:element name="dayOfWeek" type="xs:string"/>
+		<xs:element name="numberPair" type="xs:int"/>
+                <xs:element name="groupName" type="xs:string"/>
+		<xs:element name="subgroup" type="xs:string"/>
+                <xs:element name="type" type="xs:string"/> 
+                <xs:element name="discipline" type="xs:string"/>     
+                <xs:element name="room" type="xs:string"/>  
+                <xs:element name="teacher" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+</xs:schema>

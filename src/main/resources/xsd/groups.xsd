@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:element name="allGroups" type="AllGroups"/>
+
+	<xs:complexType name="AllGroups">
+		<xs:sequence>
+			<xs:element name="faculty" maxOccurs="unbounded" minOccurs="0" type="Faculty"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Faculty">
+		<xs:sequence>
+			<xs:element name="facultyName" type="xs:string"/>
+			<xs:element name="courses" minOccurs="0" type="Courses"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Courses">
+		<xs:sequence>
+			<xs:element name="course" maxOccurs="unbounded" minOccurs="0" type="Course"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Course">
+		<xs:sequence>
+			<xs:element name="courseNumber" type="xs:int"/>
+			<xs:element name="groups" minOccurs="0" type="Groups"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Groups">
+		<xs:sequence>
+			<xs:element name="group" maxOccurs="unbounded" minOccurs="0" type="Group"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Group">
+		<xs:sequence>
+			<xs:element name="specialityName" type="xs:string"/>
+			<xs:element name="groupName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
+
