@@ -1,5 +1,9 @@
 package ru.rsatu.seryakova;
 
+import ru.rsatu.seryakova.restClasses.Authentification;
+import ru.rsatu.seryakova.restClasses.ChangeRasp;
+import ru.rsatu.seryakova.restClasses.MainClass;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

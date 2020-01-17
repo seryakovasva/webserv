@@ -54,11 +54,17 @@
       <artifactId>javax.ejb-api</artifactId>
       <version>3.2</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-multipart-provider -->
+<!--    <dependency>-->
+<!--      <groupId>org.jboss.resteasy</groupId>-->
+<!--      <artifactId>resteasy-multipart-provider</artifactId>-->
+<!--      <version>2.1-beta-1</version>-->
+<!--    </dependency>-->
+
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-multipart-provider</artifactId>
-      <version>2.1-beta-1</version>
     </dependency>
 
 
@@ -94,65 +100,90 @@
   </dependencies>
   <build>
     <plugins>
+
       <plugin>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus-plugin.version}</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxb2-maven-plugin</artifactId>
+        <version>2.5.0</version>
         <executions>
           <execution>
+            <id>xjc</id>
             <goals>
-              <goal>build</goal>
+              <goal>xjc</goal>
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
         <configuration>
-          <systemProperties>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-          </systemProperties>
+          <xjbSources>
+            <xjbSource>src/main/resources/global.xjb</xjbSource>
+          </xjbSources>
+          <sources>
+            <source>src/main/resources/xsd/rasp.xsd</source>
+            <source>src/main/resources/xsd/groups.xsd</source>
+          </sources>
+          <packageName>myClasses</packageName>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
-  <profiles>
-    <profile>
-      <id>native</id>
-      <activation>
-        <property>
-          <name>native</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
+
+              <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus-plugin.version}</version>
+                <executions>
+                  <execution>
+                    <goals>
+                      <goal>build</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
+              <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+              </plugin>
+              <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
                 <configuration>
                   <systemProperties>
-                    <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                    <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                   </systemProperties>
                 </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-      </properties>
-    </profile>
-  </profiles>
-</project>
+              </plugin>
+            </plugins>
+          </build>
+          <profiles>
+            <profile>
+              <id>native</id>
+              <activation>
+                <property>
+                  <name>native</name>
+                </property>
+              </activation>
+              <build>
+                <plugins>
+                  <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${surefire-plugin.version}</version>
+                    <executions>
+                      <execution>
+                        <goals>
+                          <goal>integration-test</goal>
+                          <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                          <systemProperties>
+                            <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                          </systemProperties>
+                        </configuration>
+                      </execution>
+                    </executions>
+                  </plugin>
+                </plugins>
+              </build>
+              <properties>
+                <quarkus.package.type>native</quarkus.package.type>
+              </properties>
+            </profile>
+          </profiles>
+        </project>

@@ -191,7 +191,7 @@ public class TimeWork {
                 semester= semester.plusWeeks(22);
             } else if (semester.getDayOfWeek().toString().equals("SUNDAY")) {
                 semester = semester.plusDays(1);
-                semester= semester.plusWeeks(23);
+                semester= semester.plusWeeks(22);
             }
         }else {
             semester = LocalDate.of(today.getYear(), 9, 1);//начало осеннего семестра

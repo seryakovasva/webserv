@@ -14,7 +14,7 @@ public class ForAuth {
 
     private final String secretKey = "LDyTxEhR05GJveM";
 
-    private EntityManager em;
+    //private EntityManager em;
     private static final Logger log = Logger.getLogger(ForAuth.class);
 
     public String createTok(String login, String role, String secretKey) {

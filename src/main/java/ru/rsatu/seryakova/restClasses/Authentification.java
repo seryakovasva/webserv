@@ -1,4 +1,4 @@
-package ru.rsatu.seryakova;
+package ru.rsatu.seryakova.restClasses;
 
 import com.google.gson.Gson;
 import io.jsonwebtoken.JwtException;
@@ -27,7 +27,6 @@ import java.util.Date;
 public class Authentification {
     @Inject
     EntityManager em;
-
     private static final Logger log = Logger.getLogger(Authentification.class);
 
     //
@@ -94,6 +93,7 @@ public class Authentification {
                 auth.setTimeToKillToken(timestamp);
                 auth.setRefreshToken(token.generateKey(10));
                 em.merge(auth);
+
 
                 return Response
                         .status(Response.Status.OK)
