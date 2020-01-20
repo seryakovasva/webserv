@@ -71,11 +71,19 @@ public class MainClass {
         LocalDate monday = LocalDate.now(ZoneId.of("Europe/Moscow"));
         LocalDate sunday = LocalDate.now(ZoneId.of("Europe/Moscow"));
         TimeWork time = gson.fromJson(s, TimeWork.class);
-        LocalDate actDay = LocalDate.now(ZoneId.of("Europe/Moscow")); //текущая дата
-
+        //LocalDate actDay = LocalDate.now(ZoneId.of("Europe/Moscow")); //текущая дата
+        LocalDate actDay = time.getSunday();
+        log.info(actDay);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        if ((time.getMonday() == null) & (time.getWeek() == null) & (time.getSunday() == null)) { // получение недели и пн,вс при инициализации
+        if ((time.getMonday() == null) & (time.getWeek() == null) & (time.getSunday() != null)) { // получение недели и пн,вс при инициализации
+            week = time.getWeek(actDay); //получение № недели
+            monday = time.getMonWeek(actDay); // получение пн недели;
+            sunday = monday.plusDays(6);// получение вс недели
+            System.out.println("tek week " + week);
+
+        } else if
+        ((time.getMonday() == null) & (time.getWeek() == null) & (time.getSunday() == null)) { // получение недели и пн,вс при инициализации
             week = time.getWeek(actDay); //получение № недели
             monday = time.getMonWeek(actDay); // получение пн недели;
             sunday = monday.plusDays(6);// получение вс недели

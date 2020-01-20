@@ -87,10 +87,11 @@ public class Authentification {
 
                 String secretKey = token.generateKey(15);
                 auth.setSecretKey(secretKey);
-                String tok = token.createTok(signInData.getLogin(), role, secretKey);
-                auth.setAccessToken(tok);
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis() +  2* 60 * 1000);
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis() +  30* 60 * 2000);
                 auth.setTimeToKillToken(timestamp);
+                String tok = token.createTok(signInData.getLogin(), role, secretKey, timestamp);
+                auth.setAccessToken(tok);
+
                 auth.setRefreshToken(token.generateKey(10));
                 em.merge(auth);
 
@@ -183,6 +184,7 @@ public class Authentification {
     @Path("/updateTok")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
     public Response updateTok( @HeaderParam("authorization") String authorization) {
+        log.info("Обновление токена");
         Gson g = new Gson();
         ForAuth token = new ForAuth();
         log.info(authorization.substring(7, authorization.length()));
@@ -205,10 +207,11 @@ public class Authentification {
             String secretKey = token.generateKey(15);
             auth.setSecretKey(secretKey);
             log.info(user.getLogin());
-            String tok = token.createTok(user.getLogin(), user.getRole(), secretKey);
-            auth.setAccessToken(tok);
-            Timestamp timeToKill = new Timestamp(System.currentTimeMillis() + 2 * 60 * 1000);
+            Timestamp timeToKill = new Timestamp(System.currentTimeMillis() + 2 * 60 * 2000);
             auth.setTimeToKillToken(timeToKill);
+            String tok = token.createTok(user.getLogin(), user.getRole(), secretKey, timeToKill);
+            auth.setAccessToken(tok);
+
             auth.setRefreshToken(token.generateKey(10));
             em.merge(auth);
 
@@ -231,6 +234,7 @@ public class Authentification {
     @Path("/dateCheck")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
     public Response dateCheck( @HeaderParam("authorization") String authorization) {
+        log.info("Проверка времени жизни токена");
         Gson g = new Gson();
         try {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());

@@ -8,16 +8,17 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityManager;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.sql.Timestamp;
 import java.util.Random;
 
 public class ForAuth {
 
-    private final String secretKey = "LDyTxEhR05GJveM";
+    //private final String secretKey = "LDyTxEhR05GJveM";
 
     //private EntityManager em;
     private static final Logger log = Logger.getLogger(ForAuth.class);
 
-    public String createTok(String login, String role, String secretKey) {
+    public String createTok(String login, String role, String secretKey, Timestamp time) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256; //алгоритм шифрования для токена
 
         byte[] keySecretBytes = DatatypeConverter.parseBase64Binary(secretKey);//доп строка для шифрования - ключ для шифрования токена
@@ -26,6 +27,13 @@ public class ForAuth {
                 .claim("login", login)
                 .claim("role", role)
                 .signWith(signatureAlgorithm, key);
+        JwtBuilder jwtBuilder1 = Jwts.builder()
+                .claim("login", login)
+                .claim("role", role)
+                .claim("expire time", time.toString())
+                .signWith(signatureAlgorithm, key);
+        log.info(time.toString());
+        log.info(jwtBuilder1.compact());
         return jwtBuilder.compact();
     }
 
