@@ -13,6 +13,14 @@ import java.util.Random;
 
 public class ForAuth {
 
+    private String token;
+    private String refreshToken;
+    public ForAuth() {}
+    public ForAuth(String token, String refreshTok) {
+        this.token = "Bearer " + token;
+        this.refreshToken = refreshTok;
+    }
+
     //private final String secretKey = "LDyTxEhR05GJveM";
 
     //private EntityManager em;

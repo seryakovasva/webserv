@@ -141,7 +141,7 @@ public class XlsParser {
         List<Shedule> schedule = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         for (ScheduleFromFile scheduleFromXls : tempSched) {
-            System.out.println("row " + scheduleFromXls.getRow());
+          //  System.out.println("row " + scheduleFromXls.getRow());
             try {
                 if ((scheduleFromXls.getWeek().indexOf('-') != -1) && (scheduleFromXls.getWeek().indexOf('/') == -1)) { //m-n чет/неч/все
 

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import ru.rsatu.seryakova.POJO.AuthError;
 import ru.rsatu.seryakova.POJO.SignInData;
 import ru.rsatu.seryakova.POJO.SignUpData;
+import ru.rsatu.seryakova.POJO.TimeWork;
 import ru.rsatu.seryakova.Utilites.ForAuth;
 import ru.rsatu.seryakova.tables.Teachers;
 import ru.rsatu.seryakova.tables.authentification.Auth;
@@ -30,11 +31,87 @@ public class Authentification {
     private static final Logger log = Logger.getLogger(Authentification.class);
 
     //
+//    @Transactional
+//    @POST
+//    @Path("/signIn")
+//    @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
+//    public Response signIn(String s) {
+//        System.out.println("sign in");
+//        log.info(s);
+//        Gson g = new Gson();
+//        String respMsg = "Ok";
+//        AuthError authError = new AuthError();
+//        SignInData signInData = g.fromJson(s, SignInData.class);
+//        log.info("Аунтетификация");
+//        log.info("Логин: " + signInData.getLogin());
+//        log.info("Пароль: " + signInData.getHashPassword());
+//
+//        Long kol = em.createQuery("SELECT COUNT (U.login) FROM Users U WHERE U.login like :login ", Long.class)
+//                .setParameter("login", signInData.getLogin())
+//                .getSingleResult();
+//        if (kol == 0) {
+//            respMsg = "Неправильный логин";
+//            System.out.println("логин");
+//            authError.setLogin(respMsg);
+//            return Response
+//                    .status(Response.Status.BAD_REQUEST)
+//                    .entity(g.toJson(authError))
+//                    .build();
+//        } else {
+//
+//            Long kol11 = em.createQuery("SELECT COUNT (U.login) FROM Users U left join Auth A on A.userId = U.userId " +
+//                    "WHERE U.login like :login and A.hashPassword like :hash", Long.class)
+//                    .setParameter("login", signInData.getLogin())
+//                    .setParameter("hash", signInData.getHashPassword())
+//                    .getSingleResult();
+//
+//            if (kol11 == 0) {
+//                respMsg = "Неправильный пароль";
+//                System.out.println("пароль");
+//                authError.setPassword(respMsg);
+//                return Response
+//                        .status(Response.Status.BAD_REQUEST)
+//                        .entity(g.toJson(authError))
+//                        .build();
+//
+//
+//            } else {
+//                ForAuth token = new ForAuth();
+//                String role = em.createQuery("SELECT U.role FROM Users U WHERE U.login = :log", String.class)
+//                        .setParameter("log", signInData.getLogin())
+//                        .getSingleResult();
+//
+//                Auth auth = em.createQuery("SELECT  A FROM Users U left join Auth A on A.userId = U.userId " +
+//                        "WHERE U.login like :login and A.hashPassword like :hash", Auth.class)
+//                        .setParameter("login", signInData.getLogin())
+//                        .setParameter("hash", signInData.getHashPassword())
+//                        .getSingleResult();
+//
+//                String secretKey = token.generateKey(15);
+//                auth.setSecretKey(secretKey);
+//                Timestamp timestamp = new Timestamp(System.currentTimeMillis() +  8* 60 * 2000);
+//                auth.setTimeToKillToken(timestamp);
+//                String tok = token.createTok(signInData.getLogin(), role, secretKey, timestamp);
+//                auth.setAccessToken(tok);
+//
+//                auth.setRefreshToken(token.generateKey(10));
+//                em.merge(auth);
+//                Gson gson = new Gson();
+//
+//                return Response
+//                        .status(Response.Status.OK)
+//                        .entity(gson.toJson(new ForAuth(tok, auth.getRefreshToken())))
+//                        .build();
+//            }
+//        }
+//    }
+
     @Transactional
     @POST
     @Path("/signIn")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
     public Response signIn(String s) {
+        System.out.println("sign in");
         log.info(s);
         Gson g = new Gson();
         String respMsg = "Ok";
@@ -44,10 +121,12 @@ public class Authentification {
         log.info("Логин: " + signInData.getLogin());
         log.info("Пароль: " + signInData.getHashPassword());
 
-        Long kol = em.createQuery("SELECT COUNT (U.login) FROM Users U WHERE U.login like :login ", Long.class)
+        Auth auth = em.createQuery("SELECT  A FROM Users U left join Auth A on A.userId = U.userId " +
+                "WHERE U.login like :login", Auth.class)
                 .setParameter("login", signInData.getLogin())
                 .getSingleResult();
-        if (kol == 0) {
+
+        if (auth == null) {
             respMsg = "Неправильный логин";
             System.out.println("логин");
             authError.setLogin(respMsg);
@@ -56,14 +135,7 @@ public class Authentification {
                     .entity(g.toJson(authError))
                     .build();
         } else {
-
-            Long kol11 = em.createQuery("SELECT COUNT (U.login) FROM Users U left join Auth A on A.userId = U.userId " +
-                    "WHERE U.login like :login and A.hashPassword like :hash", Long.class)
-                    .setParameter("login", signInData.getLogin())
-                    .setParameter("hash", signInData.getHashPassword())
-                    .getSingleResult();
-
-            if (kol11 == 0) {
+            if (!(auth.getHashPassword().equals(signInData.getHashPassword()))) {
                 respMsg = "Неправильный пароль";
                 System.out.println("пароль");
                 authError.setPassword(respMsg);
@@ -78,28 +150,20 @@ public class Authentification {
                 String role = em.createQuery("SELECT U.role FROM Users U WHERE U.login = :log", String.class)
                         .setParameter("log", signInData.getLogin())
                         .getSingleResult();
-
-                Auth auth = em.createQuery("SELECT  A FROM Users U left join Auth A on A.userId = U.userId " +
-                        "WHERE U.login like :login and A.hashPassword like :hash", Auth.class)
-                        .setParameter("login", signInData.getLogin())
-                        .setParameter("hash", signInData.getHashPassword())
-                        .getSingleResult();
-
                 String secretKey = token.generateKey(15);
                 auth.setSecretKey(secretKey);
-                Timestamp timestamp = new Timestamp(System.currentTimeMillis() +  30* 60 * 2000);
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis() +  8* 60 * 2000);
                 auth.setTimeToKillToken(timestamp);
                 String tok = token.createTok(signInData.getLogin(), role, secretKey, timestamp);
                 auth.setAccessToken(tok);
 
                 auth.setRefreshToken(token.generateKey(10));
                 em.merge(auth);
-
+                Gson gson = new Gson();
 
                 return Response
                         .status(Response.Status.OK)
-                        .entity("{ \"token\":" + g.toJson("Bearer " + tok) + "," +
-                                "\"refresh\":" + g.toJson(auth.getRefreshToken()) + "}")
+                        .entity(gson.toJson(new ForAuth(tok, auth.getRefreshToken())))
                         .build();
             }
         }
@@ -207,19 +271,22 @@ public class Authentification {
             String secretKey = token.generateKey(15);
             auth.setSecretKey(secretKey);
             log.info(user.getLogin());
-            Timestamp timeToKill = new Timestamp(System.currentTimeMillis() + 2 * 60 * 2000);
+            Timestamp timeToKill = new Timestamp(System.currentTimeMillis() + 20 * 60 * 2000);
             auth.setTimeToKillToken(timeToKill);
             String tok = token.createTok(user.getLogin(), user.getRole(), secretKey, timeToKill);
             auth.setAccessToken(tok);
 
             auth.setRefreshToken(token.generateKey(10));
             em.merge(auth);
+            Gson gson = new Gson();
 
             return Response
                     .status(Response.Status.OK)
-                    .entity("{ \"token\":" + g.toJson("Bearer " + tok) + "," +
-                            "\"refresh\":" + g.toJson(auth.getRefreshToken()) + "}")
+                    .entity(gson.toJson(new ForAuth(tok, auth.getRefreshToken())))
                     .build();
+//                    .entity("{ \"token\":" + g.toJson("Bearer " + tok) + "," +
+//                            "\"refresh\":" + g.toJson(auth.getRefreshToken()) + "}")
+//                    .build();
         } else {
             log.info("unauthorized ");
             return Response

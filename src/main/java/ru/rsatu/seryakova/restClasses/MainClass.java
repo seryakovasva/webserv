@@ -1,9 +1,11 @@
 package ru.rsatu.seryakova.restClasses;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.gson.Gson;
 import com.itextpdf.text.*;
 import org.apache.log4j.Logger;
 import ru.rsatu.seryakova.ExportFile;
+import ru.rsatu.seryakova.POJO.MyTime;
 import ru.rsatu.seryakova.POJO.infOfGroup.Faculty;
 import ru.rsatu.seryakova.POJO.infOfGroup.Group;
 import ru.rsatu.seryakova.POJO.ObjSearch;
@@ -63,17 +65,17 @@ public class MainClass {
     @POST
     @Path("/getToWeek")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
-    @Consumes(value={"application/json"})
-    public Response getToWeek(String s) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getToWeek(MyTime t) {
         Gson gson = new Gson();
-        log.info(s);
+        log.info(t.getMonday());
         Integer week = 0;
         LocalDate monday = LocalDate.now(ZoneId.of("Europe/Moscow"));
         LocalDate sunday = LocalDate.now(ZoneId.of("Europe/Moscow"));
-        TimeWork time = gson.fromJson(s, TimeWork.class);
-        //LocalDate actDay = LocalDate.now(ZoneId.of("Europe/Moscow")); //текущая дата
+        TimeWork time = new TimeWork(t.getWeek(), t.getMonday(),t.getSunday());
+       // LocalDate actDay = LocalDate.now(ZoneId.of("Europe/Moscow")); //текущая дата
         LocalDate actDay = time.getSunday();
-        log.info(actDay);
+       // log.info(actDay);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         if ((time.getMonday() == null) & (time.getWeek() == null) & (time.getSunday() != null)) { // получение недели и пн,вс при инициализации
@@ -112,10 +114,11 @@ public class MainClass {
                 sunday = monday.plusDays(6);
                 System.out.println("back week s " + sunday + "mon " + monday.toString());
             }
+            TimeWork outTime = new TimeWork(week, formatter.format(monday), formatter.format(sunday));
 
         return Response
                 .status(Response.Status.OK)//удалена дата текущего дня
-                .entity(gson.toJson(new TimeWork(week, formatter.format(monday), formatter.format(sunday))))
+                .entity(outTime)
                 .build();//выполнить;
     }
 

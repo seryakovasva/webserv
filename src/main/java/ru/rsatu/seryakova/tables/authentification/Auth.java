@@ -32,6 +32,17 @@ public class Auth {
  //   @Column(name = "timeToKillToken")
     private Timestamp timeToKillToken;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    //   @Column(name = "role")
+    private String role;
+
     public Timestamp getTimeToKillToken() {
         return timeToKillToken;
     }
