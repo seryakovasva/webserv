@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<allGroups>
+	<faculty>
+		<facultyName>ФРЭИ</facultyName>
+		<courses>
+			<course>
+				<courseNumber>1</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Информатика и вычислительная техника</specialityName>
+						<groupName>ИВБ-18</groupName>
+					</group>
+					<group>
+						<specialityName>Информатика и вычислительная техника </specialityName>
+						<groupName>ИВМ-18</groupName>
+					</group>
+					<group>
+						<specialityName>Программная инженерия 18</specialityName>
+						<groupName>ИПБ-18</groupName>
+					</group>
+					<group>
+						<specialityName>Конструирование и технология электронных средств </specialityName>
+						<groupName>КРБ-18</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>2</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Информатика и вычислительная техника </specialityName>
+						<groupName>ИВБ-17</groupName>
+					</group>
+					<group>
+						<specialityName>Программная инженерия </specialityName>
+						<groupName>ИПБ-17</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>3</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Информатика и вычислительная техника </specialityName>
+						<groupName>ИВБ-16</groupName>
+					</group>
+					<group>
+						<specialityName>Программная инженерия </specialityName>
+						<groupName>ИПБ-16</groupName>
+					</group>
+					<group>
+						<specialityName>Конструирование и технология электронных средств </specialityName>
+						<groupName>КРБ-16</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>4</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Программная инженерия </specialityName>
+						<groupName>ИПБ-15</groupName>
+					</group>
+					<group>
+						<specialityName>Информатика и вычислительная техника </specialityName>
+						<groupName>ИВБ-15</groupName>
+					</group>
+					<group>
+						<specialityName>Конструирование и технология электронных средств </specialityName>
+						<groupName>КРБ-15</groupName>
+					</group>
+				</groups>
+			</course>
+		</courses>
+	</faculty>
+	<faculty>
+		<facultyName>ФAД</facultyName>
+		<courses>
+			<course>
+				<courseNumber>1</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Теплоэнергетика и теплотехника</specialityName>
+						<groupName>ТЭБ-18</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>2</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Теплоэнергетика и теплотехника</specialityName>
+						<groupName>ТЭБ-17</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>3</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Теплоэнергетика и теплотехника</specialityName>
+						<groupName>ТЭБ-16</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>4</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Теплоэнергетика и теплотехника</specialityName>
+						<groupName>ТЭБ-15</groupName>
+					</group>
+				</groups>
+			</course>
+		</courses>
+	</faculty>
+	<faculty>
+		<facultyName>ФAТ</facultyName>
+		<courses>
+			<course>
+				<courseNumber>1</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Проектирование технологических машин и комплексов</specialityName>
+						<groupName>СПТ-18</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>2</courseNumber>
+				<groups>
+					<group>
+						<specialityName>Проектирование технологических машин и комплексов</specialityName>
+						<groupName>СПТ-17</groupName>
+					</group>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>3</courseNumber>
+				<groups>
+				</groups>
+			</course>
+			<course>
+				<courseNumber>4</courseNumber>
+				<groups>
+				</groups>
+			</course>
+		</courses>
+	</faculty>
+</allGroups>
+

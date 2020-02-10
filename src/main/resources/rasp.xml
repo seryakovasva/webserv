@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schedule>
+	<pair>
+		<week>1-18 все</week>
+		<dayOfWeek>Пн</dayOfWeek>
+		<numberPair>1</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup></subgroup>
+		<type>пр</type>
+		<discipline>Первая</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+	<pair>
+		<week>1-17 неч</week>
+		<dayOfWeek>Пн</dayOfWeek>
+		<numberPair>2</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup></subgroup>
+		<type>л</type>
+		<discipline>Вторая</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+	<pair>
+		<week>2-18 чет</week>
+		<dayOfWeek>Пн</dayOfWeek>
+		<numberPair>3</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup>1</subgroup>
+		<type>л</type>
+		<discipline>Третья</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+	<pair>
+		<week>1-17 неч/2-18 чет</week>
+		<dayOfWeek>Вт</dayOfWeek>
+		<numberPair>4</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup>1/2</subgroup>
+		<type>л</type>
+		<discipline>Четвертая</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+	<pair>
+		<week>1,2,3,4/5,6,7,8</week>
+		<dayOfWeek>Вт</dayOfWeek>
+		<numberPair>5</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup>1/2</subgroup>
+		<type>л</type>
+		<discipline>Экономика</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+	<pair>
+		<week>1,2,3,4</week>
+		<dayOfWeek>Ср</dayOfWeek>
+		<numberPair>2</numberPair>
+		<groupName>ИВБ-15</groupName>
+		<subgroup></subgroup>
+		<type>л</type>
+		<discipline>Экономика</discipline>
+		<room>Г-403</room>
+		<teacher>Котикова Р.В</teacher>
+	</pair>
+</schedule>
