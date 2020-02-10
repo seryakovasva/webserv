@@ -4,10 +4,10 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import ru.rsatu.seryakova.POJO.ScheduleFromFile;
-import ru.rsatu.seryakova.POJO.TimeWork;
+import ru.rsatu.seryakova.pojo.ScheduleFromFile;
 import ru.rsatu.seryakova.exceptions.ParserException;
 import ru.rsatu.seryakova.tables.Shedule;
+import ru.rsatu.seryakova.utilites.TimeWork;
 
 import javax.persistence.EntityManager;
 import java.io.FileInputStream;

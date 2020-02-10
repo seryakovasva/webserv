@@ -1,20 +1,16 @@
 package ru.rsatu.seryakova.parsers;
 
 import myClasses.*;
-import org.xml.sax.SAXException;
-import ru.rsatu.seryakova.POJO.ScheduleFromFile;
+import ru.rsatu.seryakova.pojo.ScheduleFromFile;
 import ru.rsatu.seryakova.exceptions.ParserException;
 import ru.rsatu.seryakova.tables.InfOfGroups;
 
 import javax.persistence.EntityManager;
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

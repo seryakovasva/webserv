@@ -3,11 +3,10 @@ package ru.rsatu.seryakova.restClasses;
 import com.google.gson.Gson;
 import io.jsonwebtoken.JwtException;
 import org.apache.log4j.Logger;
-import ru.rsatu.seryakova.POJO.AuthError;
-import ru.rsatu.seryakova.POJO.SignInData;
-import ru.rsatu.seryakova.POJO.SignUpData;
-import ru.rsatu.seryakova.POJO.TimeWork;
-import ru.rsatu.seryakova.Utilites.ForAuth;
+import ru.rsatu.seryakova.pojo.AuthError;
+import ru.rsatu.seryakova.pojo.SignInData;
+import ru.rsatu.seryakova.pojo.SignUpData;
+import ru.rsatu.seryakova.utilites.ForAuth;
 import ru.rsatu.seryakova.tables.Teachers;
 import ru.rsatu.seryakova.tables.authentification.Auth;
 import ru.rsatu.seryakova.tables.authentification.Users;
@@ -110,13 +109,13 @@ public class Authentification {
     @POST
     @Path("/signIn")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
-    public Response signIn(String s) {
+    public Response signIn(SignInData signInData) {
         System.out.println("sign in");
-        log.info(s);
+       // log.info(s);
         Gson g = new Gson();
         String respMsg = "Ok";
         AuthError authError = new AuthError();
-        SignInData signInData = g.fromJson(s, SignInData.class);
+       // SignInData signInData = g.fromJson(s, SignInData.class);
         log.info("Аунтетификация");
         log.info("Логин: " + signInData.getLogin());
         log.info("Пароль: " + signInData.getHashPassword());
@@ -160,10 +159,11 @@ public class Authentification {
                 auth.setRefreshToken(token.generateKey(10));
                 em.merge(auth);
                 Gson gson = new Gson();
+                ForAuth outAuth = new ForAuth(tok, auth.getRefreshToken());
 
                 return Response
                         .status(Response.Status.OK)
-                        .entity(gson.toJson(new ForAuth(tok, auth.getRefreshToken())))
+                        .entity(outAuth)
                         .build();
             }
         }
@@ -173,7 +173,7 @@ public class Authentification {
     @POST
     @Path("/signUp")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
-    public Response signUp(String s, @HeaderParam("authorization") String authorization) {
+    public Response signUp(SignUpData signUpData, @HeaderParam("authorization") String authorization) {
         AuthError authError = new AuthError();
         String respMsg = "Ok";
         Gson g = new Gson();
@@ -181,7 +181,7 @@ public class Authentification {
         ForAuth forAuth = new ForAuth();
         if ((forAuth.parseToken(authorization, em).getRole().equals("admin"))
                 || (forAuth.parseToken(authorization, em).getRole().equals("scheduleEditor"))) {
-            SignUpData signUpData = g.fromJson(s, SignUpData.class);
+            //SignUpData signUpData = g.fromJson(s, SignUpData.class);
             Users user = new Users();
             user.setLastName(signUpData.getLastName());
             user.setLogin(signUpData.getLogin());
@@ -232,12 +232,12 @@ public class Authentification {
                 log.error("Пользователь с таким логином уже существует");
                 authError.setLogin(respMsg);
                 return Response
-                        .status(Response.Status.BAD_REQUEST)
-                        .entity(g.toJson(authError))
+                        .status(Response.Status.UNAUTHORIZED)
+                        .entity(authError)
                         .build();
             }
         } else {
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.UNAUTHORIZED)
                     .entity(g.toJson("Войдите в учетную запись"))
                     .build();
         }
@@ -279,10 +279,10 @@ public class Authentification {
             auth.setRefreshToken(token.generateKey(10));
             em.merge(auth);
             Gson gson = new Gson();
-
+            ForAuth outAuth = new ForAuth(tok, auth.getRefreshToken());
             return Response
                     .status(Response.Status.OK)
-                    .entity(gson.toJson(new ForAuth(tok, auth.getRefreshToken())))
+                    .entity(outAuth)
                     .build();
 //                    .entity("{ \"token\":" + g.toJson("Bearer " + tok) + "," +
 //                            "\"refresh\":" + g.toJson(auth.getRefreshToken()) + "}")

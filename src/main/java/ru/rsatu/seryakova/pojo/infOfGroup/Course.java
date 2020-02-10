@@ -1,4 +1,4 @@
-package ru.rsatu.seryakova.POJO.infOfGroup;
+package ru.rsatu.seryakova.pojo.infOfGroup;
 
 import java.util.List;
 

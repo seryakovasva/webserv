@@ -1,20 +1,18 @@
 package ru.rsatu.seryakova.restClasses;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.google.gson.Gson;
 import com.itextpdf.text.*;
 import org.apache.log4j.Logger;
 import ru.rsatu.seryakova.ExportFile;
-import ru.rsatu.seryakova.POJO.MyTime;
-import ru.rsatu.seryakova.POJO.infOfGroup.Faculty;
-import ru.rsatu.seryakova.POJO.infOfGroup.Group;
-import ru.rsatu.seryakova.POJO.ObjSearch;
-import ru.rsatu.seryakova.POJO.Search;
-import ru.rsatu.seryakova.POJO.TimeWork;
-import ru.rsatu.seryakova.Utilites.ForAuth;
+import ru.rsatu.seryakova.pojo.MyTime;
+import ru.rsatu.seryakova.pojo.SearchPair;
+import ru.rsatu.seryakova.pojo.infOfGroup.Faculty;
+import ru.rsatu.seryakova.pojo.ObjSearch;
+import ru.rsatu.seryakova.pojo.Search;
 import ru.rsatu.seryakova.tables.InfOfGroups;
 import ru.rsatu.seryakova.tables.Shedule;
 import ru.rsatu.seryakova.tables.Teachers;
+import ru.rsatu.seryakova.utilites.TimeWork;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -22,8 +20,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -57,7 +53,7 @@ public class MainClass {
                 .getResultList();
         return Response
                 .status(Response.Status.OK)//удалена дата текущего дня
-                .entity(gson.toJson(list.size()))
+                .entity(list)
                 .build();//выполнить;
     }
 
@@ -67,8 +63,7 @@ public class MainClass {
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getToWeek(MyTime t) {
-        Gson gson = new Gson();
-        log.info(t.getMonday());
+        log.info(t.getMonday() + " " + t.getSunday() + " " + t.getWeek());
         Integer week = 0;
         LocalDate monday = LocalDate.now(ZoneId.of("Europe/Moscow"));
         LocalDate sunday = LocalDate.now(ZoneId.of("Europe/Moscow"));
@@ -114,8 +109,9 @@ public class MainClass {
                 sunday = monday.plusDays(6);
                 System.out.println("back week s " + sunday + "mon " + monday.toString());
             }
-            TimeWork outTime = new TimeWork(week, formatter.format(monday), formatter.format(sunday));
 
+            MyTime outTime = new MyTime(week, formatter.format(monday), formatter.format(sunday));
+        log.info(outTime);
         return Response
                 .status(Response.Status.OK)//удалена дата текущего дня
                 .entity(outTime)
@@ -127,12 +123,10 @@ public class MainClass {
     @Path("/getParam")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
     @Consumes(value={"application/json"})
-    public Response getParam(String s) {
-        Gson gson = new Gson();
+    public Response getParam(ObjSearch search) {
         log.info("получение параметров группы или преподавателя");
-        ObjSearch search = gson.fromJson(s, ObjSearch.class);
-        log.info(s);
-        List<Search> list = em.createQuery("SELECT NEW ru.rsatu.seryakova.POJO.Search(MT.nameGroup, " +
+        log.info(search.getGrName());
+        List<Search> list = em.createQuery("SELECT NEW ru.rsatu.seryakova.pojo.Search(MT.nameGroup, " +
                         "MT.room, MT.teacher, MT.discipline) FROM Shedule MT " +
                         "where MT.teacher in :teach and MT.nameGroup in :name",
                 Search.class)
@@ -148,7 +142,7 @@ public class MainClass {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(gson.toJson(list))
+                .entity(list)
                 .build();//выполнить
     }
 
@@ -160,7 +154,6 @@ public class MainClass {
     public Response search(String s, @HeaderParam("authorization") String authorization) {
         Gson gson = new Gson();
         log.info("Поиск");
-        log.info(s);
         ObjSearch search = gson.fromJson(s, ObjSearch.class);
         TimeWork TW = gson.fromJson(s, TimeWork.class);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -240,7 +233,7 @@ public class MainClass {
         }
         return Response
                 .status(Response.Status.OK)
-                .entity(gson.toJson(list))
+                .entity(list)
                 .build();//выполнить;
 
     }
@@ -259,7 +252,7 @@ public class MainClass {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(gson.toJson(faculties))
+                .entity(faculties)
                 .build();//выполнить
     }
 
@@ -267,12 +260,13 @@ public class MainClass {
     @POST
     @Path("/getInfo")
     @Produces(MediaType.APPLICATION_JSON)//возвращаемый тип в формате...
-    public Response getInfo(String s) {
+    public Response getInfo(Teachers t) {
+        log.info(t);
         Gson gson = new Gson();
-        Teachers t = gson.fromJson(s,Teachers.class);
+       // Teachers t = gson.fromJson(s,Teachers.class);
         Teachers teacher = new Teachers();
         try {
-            teacher = em.createQuery("SELECT T FROM Teachers T where T.FIO in :fio", Teachers.class)
+            t = em.createQuery("SELECT T FROM Teachers T where T.FIO in :fio", Teachers.class)
                     .setParameter("fio", t.getFIO())
                     .getSingleResult();
         } catch (Exception e) {
@@ -282,7 +276,7 @@ public class MainClass {
         }
         return Response
                 .status(Response.Status.OK)
-                .entity(gson.toJson(teacher.getLastName() + " " + teacher.getName() + " " + teacher.getMidleName()))
+                .entity(gson.toJson(t.getLastName() + " " + t.getName() + " " + t.getMidleName()))
                 .build();
     }
 

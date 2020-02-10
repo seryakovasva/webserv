@@ -1,4 +1,4 @@
-package ru.rsatu.seryakova.Utilites;
+package ru.rsatu.seryakova.utilites;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.*;

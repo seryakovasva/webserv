@@ -1,8 +1,8 @@
-package ru.rsatu.seryakova.Utilites;
+package ru.rsatu.seryakova.utilites;
 
 import io.jsonwebtoken.*;
 import org.apache.log4j.Logger;
-import ru.rsatu.seryakova.POJO.TokenData;
+import ru.rsatu.seryakova.pojo.TokenData;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityManager;
@@ -19,6 +19,22 @@ public class ForAuth {
     public ForAuth(String token, String refreshTok) {
         this.token = "Bearer " + token;
         this.refreshToken = refreshTok;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     //private final String secretKey = "LDyTxEhR05GJveM";

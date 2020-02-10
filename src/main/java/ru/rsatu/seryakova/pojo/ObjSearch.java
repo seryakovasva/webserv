@@ -1,4 +1,4 @@
-package ru.rsatu.seryakova.POJO;
+package ru.rsatu.seryakova.pojo;
 
 import com.google.gson.annotations.SerializedName;
 

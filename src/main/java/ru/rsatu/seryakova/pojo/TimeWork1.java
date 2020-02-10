@@ -1,10 +1,5 @@
-package ru.rsatu.seryakova.POJO;
+package ru.rsatu.seryakova.pojo;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.jboss.resteasy.annotations.jaxrs.FormParam;
-import org.jboss.resteasy.annotations.jaxrs.PathParam;
-
-import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -12,13 +7,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeWork {
+public class TimeWork1 {
     public Integer week;
     public String monday;
     public String sunday;
 
-    public TimeWork() {}
-    public TimeWork(Integer week, String monday, String sunday) {
+    public TimeWork1() {}
+    public TimeWork1(Integer week, String monday, String sunday) {
         this.week = week;
         this.monday = monday;
         this.sunday = sunday;
